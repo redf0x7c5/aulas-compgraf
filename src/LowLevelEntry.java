@@ -6,11 +6,9 @@ import javax.media.opengl.*;
 import javax.media.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.*;
 
-public class Application implements GLEventListener {
+public class LowLevelEntry implements GLEventListener {
 
-    private double theta = 0;
-    private double s = 0;
-    private double c = 0;
+    private double theta = 0.05;
 
     public static void main(String[] args) {
         GLProfile glp = GLProfile.getDefault();
@@ -28,7 +26,7 @@ public class Application implements GLEventListener {
             }
         });
 
-        canvas.addGLEventListener(new Application());
+        canvas.addGLEventListener(new LowLevelEntry());
 
         FPSAnimator animator = new FPSAnimator(canvas, 60);
         //animator.add(canvas);
@@ -54,9 +52,7 @@ public class Application implements GLEventListener {
     }
 
     private void update() {
-        theta += 0.01;
-        s = Math.sin(theta);
-        c = Math.cos(theta);
+        //theta += 0.01;
     }
 
     private void render(GLAutoDrawable drawable) {
@@ -64,14 +60,18 @@ public class Application implements GLEventListener {
 
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
 
+        gl.glRotatef( (float)theta, 0.0f, 1.0f, 0.0f );
+
         // draw a triangle filling the window
         gl.glBegin(GL.GL_TRIANGLES);
-        gl.glColor3f(1, 0, 0);
-        gl.glVertex2d(-c, -c);
-        gl.glColor3f(0, 1, 0);
-        gl.glVertex2d(0, c);
-        gl.glColor3f(0, 0, 1);
-        gl.glVertex2d(s, -s);
+            gl.glColor3f(1, 0, 0);
+            gl.glVertex2d(0, 1);
+
+            gl.glColor3f(0, 1, 0);
+            gl.glVertex2d(-1, -1);
+
+            gl.glColor3f(0, 0, 1);
+            gl.glVertex2d( 1, -1);
         gl.glEnd();
     }
 }
